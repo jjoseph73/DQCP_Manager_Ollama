@@ -1,0 +1,14 @@
+.env
+state_store.json
+knowledge_base/
+__pycache__/
+.chroma/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/

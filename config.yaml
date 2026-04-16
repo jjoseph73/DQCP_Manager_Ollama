@@ -1,0 +1,39 @@
+ado:
+  org_url: "https://dev.azure.com/YOUR_ORG"
+  project: "YOUR_PROJECT"
+  work_item_type: "DQCP Checkpoint"
+  assigned_to: "your.email@company.com"
+
+excel:
+  header_row: 1
+  checkpoint_column: "Checkpoint Name"
+  status_column: "Status"
+  severity_column: "Severity"
+  owner_column: "Owner"
+  due_date_column: "Due Date"
+  comments_column: "Comments"
+  source_tag_column: "Source"
+
+knowledge:
+  chroma_path: ".chroma"
+  collection_name: "dqcp_knowledge"
+  embedding_model: "all-MiniLM-L6-v2"
+  chunk_size: 800
+  chunk_overlap: 100
+  top_k_results: 5
+
+ollama:
+  base_url: "http://localhost:11434"
+  model: "llama3.1"
+  # Recommended alternatives:
+  #   mistral          — fast, good for structured Q&A
+  #   qwen2.5          — strong on technical/SQL content
+  #   deepseek-r1:8b   — reasoning-focused, good for rule analysis
+  #   phi3             — lightweight, good for constrained hardware
+  num_ctx: 4096          # context window passed to Ollama
+  temperature: 0.1       # low temperature for precise, factual answers
+  stream: false
+
+app:
+  default_role: "analyst"
+  state_store_path: "state_store.json"

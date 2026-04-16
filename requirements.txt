@@ -1,0 +1,16 @@
+streamlit>=1.35.0
+openpyxl>=3.1.2
+azure-devops>=7.1.0.0
+msrest>=0.7.1
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+langchain>=0.2.0
+langchain-community>=0.2.0
+langchain-text-splitters>=0.2.0
+ollama>=0.3.0
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+pandas>=2.2.0
+pypdf>=4.0.0
+python-docx>=1.1.0
+pytest>=8.0.0
