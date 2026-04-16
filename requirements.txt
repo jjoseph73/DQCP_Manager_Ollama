@@ -1,7 +1,6 @@
 streamlit>=1.35.0
 openpyxl>=3.1.2
-azure-devops>=7.1.0.0
-msrest>=0.7.1
+requests>=2.32.0
 chromadb>=0.5.0
 sentence-transformers>=3.0.0
 langchain>=0.2.0
