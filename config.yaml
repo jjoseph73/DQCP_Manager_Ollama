@@ -5,14 +5,49 @@ ado:
   assigned_to: "your.email@company.com"
 
 excel:
-  header_row: 1
-  checkpoint_column: "Checkpoint Name"
-  status_column: "Status"
-  severity_column: "Severity"
-  owner_column: "Owner"
-  due_date_column: "Due Date"
-  comments_column: "Comments"
-  source_tag_column: "Source"
+  # Sheet to parse (all other sheets are treated as lookups)
+  master_sheet: "DQCP_Master"
+
+  # ── Identity columns ──────────────────────────────────────────────────────
+  id_column: "DQCP_Id"               # e.g. 01.03.0001  → used as checkpoint_key
+  data_level_column: "Data_Level"
+  data_sub_level_column: "Data_Sub_Level"
+  sequence_column: "Sequence_Number"
+  data_element_column: "Data_Element" # field being validated (SSN, Birth Date…)
+
+  # ── Content columns ───────────────────────────────────────────────────────
+  title_column: "DQCP_Title"          # → ADO System.Title
+  description_column: "DQCP_Description"
+  pseudo_code_column: "DQCP_Pseudo_Code"
+
+  # ── Source mapping columns ────────────────────────────────────────────────
+  table_name_column: "Table_Name"
+  column_name_column: "Column_Name"
+  sys_table_column: "Sys_Table_Name"
+  sys_column_column: "Sys_Column_Name"
+
+  # ── Status / approval flags ───────────────────────────────────────────────
+  status_column: "DQCP_Status"        # Active | WIP | Info | Removed
+  is_approved_column: "Is_Approved"   # Y | N
+  rollout_column: "RollOut"           # Y | N
+
+  # ── Dates ─────────────────────────────────────────────────────────────────
+  start_date_column: "Start_Date"
+  end_date_column: "End_Date"
+  last_modified_column: "Last_Modified_Date"
+  resolved_date_column: "DQCP_Resolved_Date"
+
+  # ── Open items / audit ────────────────────────────────────────────────────
+  comments_column: "DQCP_Comments"
+  questions_column: "DQCP_Questions"
+  question_status_column: "DQCP_Question_Status"
+  change_history_column: "DQCP_Change_History"
+  resolution_column: "DQCP_Resolution"
+
+  # ── ADO sync filters (rows outside these are skipped) ────────────────────
+  sync_statuses:                      # only rows with these DQCP_Status values are pushed
+    - "Active"
+    - "WIP"
 
 knowledge:
   chroma_path: ".chroma"
