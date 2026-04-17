@@ -25,7 +25,15 @@ def render_delta_preview_table(delta: dict) -> bool:
         f"**{n_unchanged} unchanged** &nbsp;·&nbsp; **{n_deleted} deleted**"
     )
 
-    _DISPLAY_COLS = ["checkpoint_key", "status", "severity", "owner", "due_date", "comments"]
+    # Columns to show in the preview tables — real DQCP_Master fields
+    _DISPLAY_COLS = [
+        "dqcp_id", "dqcp_title", "data_level_report_name",
+        "data_sub_level_report_name", "status", "is_approved",
+        "rollout", "table_name", "column_name",
+    ]
+    # Fields compared when showing "was → now" on changed rows
+    _CHANGE_FIELDS = ("status", "is_approved", "rollout", "dqcp_description",
+                      "dqcp_pseudo_code", "dqcp_comments", "resolution", "end_date")
 
     # NEW rows
     if delta["new"]:
@@ -44,7 +52,7 @@ def render_delta_preview_table(delta: dict) -> bool:
         for item in delta["changed"]:
             old = item.get("_old", {})
             row = {c: item.get(c) for c in _DISPLAY_COLS if c in item}
-            for field in ("status", "severity", "comments", "due_date"):
+            for field in _CHANGE_FIELDS:
                 old_val = old.get(field)
                 new_val = item.get(field)
                 if old_val != new_val:
@@ -60,7 +68,8 @@ def render_delta_preview_table(delta: dict) -> bool:
     if delta["deleted"]:
         st.markdown("#### 🔴 Deleted (in state store, not in Excel)")
         df_del = pd.DataFrame(delta["deleted"])
-        cols = [c for c in ["checkpoint_key", "status", "severity", "work_item_id"] if c in df_del.columns]
+        cols = [c for c in ["checkpoint_key", "dqcp_id", "dqcp_title", "status", "work_item_id"]
+                if c in df_del.columns]
         styled = df_del[cols].style.apply(
             lambda _: ["background-color: #f8d7da"] * len(cols), axis=1
         )

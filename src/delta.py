@@ -88,7 +88,7 @@ def update_state_store(store: dict, pushed_items: list[dict]) -> dict:
     Merge successfully pushed items into the state store.
 
     Each pushed item must have: checkpoint_key, work_item_id, work_item_url,
-    field_hash, and the original row fields (title, status, severity).
+    field_hash, and DQCP row fields (dqcp_id, dqcp_title, status, is_approved).
     """
     checkpoints = store.setdefault("checkpoints", {})
     now = datetime.now(timezone.utc).isoformat()
@@ -100,9 +100,13 @@ def update_state_store(store: dict, pushed_items: list[dict]) -> dict:
             "work_item_url": item.get("work_item_url", ""),
             "last_synced": now,
             "field_hash": item["field_hash"],
-            "title": item.get("checkpoint_name", item.get("title", "")),
+            "dqcp_id": item.get("dqcp_id", ""),
+            "dqcp_title": item.get("dqcp_title", item.get("checkpoint_name", "")),
             "status": item.get("status", ""),
-            "severity": item.get("severity", ""),
+            "is_approved": item.get("is_approved", ""),
+            "rollout": item.get("rollout", ""),
+            "data_level_report_name": item.get("data_level_report_name", ""),
+            "data_sub_level_report_name": item.get("data_sub_level_report_name", ""),
         }
 
     store["last_sync"] = now

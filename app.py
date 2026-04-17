@@ -301,10 +301,13 @@ if role == "analyst":
                 rows = []
                 for key, val in checkpoints.items():
                     rows.append({
-                        "Checkpoint Key": key,
-                        "Title": val.get("title", ""),
+                        "DQCP ID": val.get("dqcp_id", ""),
+                        "Title": val.get("dqcp_title", ""),
+                        "Data Level": val.get("data_level_report_name", ""),
+                        "Sub Level": val.get("data_sub_level_report_name", ""),
                         "Status": val.get("status", ""),
-                        "Severity": val.get("severity", ""),
+                        "Approved": val.get("is_approved", ""),
+                        "Roll Out": val.get("rollout", ""),
                         "Work Item ID": val.get("work_item_id"),
                         "ADO Link": val.get("work_item_url", ""),
                         "Last Synced": val.get("last_synced", "")[:19] if val.get("last_synced") else "",
@@ -312,18 +315,23 @@ if role == "analyst":
 
                 df = pd.DataFrame(rows)
 
-                col_status, col_severity = st.columns(2)
+                col_status, col_level, col_approved = st.columns(3)
                 with col_status:
                     status_opts = ["All"] + sorted(df["Status"].dropna().unique().tolist())
-                    status_filter = st.selectbox("Filter by Status", status_opts)
-                with col_severity:
-                    sev_opts = ["All"] + sorted(df["Severity"].dropna().unique().tolist())
-                    severity_filter = st.selectbox("Filter by Severity", sev_opts)
+                    status_filter = st.selectbox("Filter by DQCP Status", status_opts)
+                with col_level:
+                    level_opts = ["All"] + sorted(df["Data Level"].dropna().unique().tolist())
+                    level_filter = st.selectbox("Filter by Data Level", level_opts)
+                with col_approved:
+                    approved_opts = ["All", "Y", "N"]
+                    approved_filter = st.selectbox("Filter by Approved", approved_opts)
 
                 if status_filter != "All":
                     df = df[df["Status"] == status_filter]
-                if severity_filter != "All":
-                    df = df[df["Severity"] == severity_filter]
+                if level_filter != "All":
+                    df = df[df["Data Level"] == level_filter]
+                if approved_filter != "All":
+                    df = df[df["Approved"] == approved_filter]
 
                 st.dataframe(df, use_container_width=True, hide_index=True)
 
